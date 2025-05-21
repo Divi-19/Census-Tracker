@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Real-Time Census Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <h1>📊 Real-Time Census Progress Tracker</h1>
+  <select id="censusDropdown">
+    <option value="">-- Select Census Type --</option>
+    <option value="INCOME">INCOME</option>
+    <option value="CASTE">CASTE</option>
+  </select>
+  <div id="tree"></div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
