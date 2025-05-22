@@ -3,19 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   <title>Real-Time Census Tracker</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:," />
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 </head>
 <body>
-  <h1>📊 Real-Time Census Progress Tracker</h1>
-  <select id="censusDropdown">
+  <h1>Census Progress Tracker</h1>
+
+  <select id="censusSelect">
     <option value="">-- Select Census Type --</option>
     <option value="INCOME">INCOME</option>
     <option value="CASTE">CASTE</option>
   </select>
-  <div id="tree"></div>
 
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-  <script src="app.js"></script>
+  <div id="tree-container"></div>
+
+  <!-- Load tree rendering script -->
+  <script src="tree.js"></script>
+
+  <!-- Add this client-side socket logic -->
+  <script>
+    const socket = io();
+
+    const select = document.getElementById("censusSelect");
+    select.addEventListener("change", () => {
+      const selectedType = select.value;
+      if (selectedType) {
+        socket.emit("getCensusData", selectedType);
+      } else {
+        document.getElementById("tree-container").innerHTML = "";
+      }
+    });
+
+    socket.on("censusData", (data) => {
+      console.log("Received data:", data);
+      renderTree(data);
+    });
+  </script>
 </body>
 </html>
